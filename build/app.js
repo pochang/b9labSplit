@@ -5729,7 +5729,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x6060604052346000575b6076806100176000396000f300606060405263ffffffff60e060020a60003504166396e4ee3d81146022575b6000565b602e6004356024356040565b60408051918252519081900360200190f35b8181025b929150505600a165627a7a723058205b410afbd37cee44f914aa1bf91bac28fe3f33080fe9f2b20bd3f2e8f1e42ef10029",
     "events": {},
-    "updated_at": 1485062193945,
+    "updated_at": 1485107853152,
     "links": {}
   }
 };
@@ -6381,7 +6381,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x60606040525b60008054600160a060020a03191633600160a060020a0316179055670de0b6b3a76400006001555b5b6101d18061003d6000396000f300606060405236156100515763ffffffff60e060020a60003504166312065fe0811461005a578063148f2e5e146100795780633ba15036146100a657806390b08a52146100c7578063b603cd80146100e6575b6100585b5b565b005b3461000057610067610107565b60408051918252519081900360200190f35b3461000057610092600160a060020a0360043516610116565b604080519115158252519081900360200190f35b3461000057610092610146565b604080519115158252519081900360200190f35b3461000057610067610174565b60408051918252519081900360200190f35b346100005761009261017b565b604080519115158252519081900360200190f35b600160a060020a033016315b90565b600154604051600091600160a060020a0384169181156108fc02919084818181858888f19450505050505b919050565b600154604051600091600160a060020a0333169181156108fc02919084818181858888f19450505050505b90565b6001545b90565b6000805433600160a060020a039081169116141561011357600054600160a060020a0316ff5b5b905600a165627a7a723058206eb72fad961e018c2e94b723afbebea7c5dac58cf4f1b2d2beebe8ce68d47f010029",
     "events": {},
-    "updated_at": 1485062193973,
+    "updated_at": 1485107853140,
     "links": {},
     "address": "0xfe8435cd894c2c11b9c2f3ed9d2ccb1369524e50"
   }
@@ -7094,7 +7094,7 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "event"
       }
     },
-    "updated_at": 1485062193960,
+    "updated_at": 1485107853145,
     "links": {}
   }
 };
@@ -7702,8 +7702,8 @@ var SolidityEvent = require("web3/lib/web3/event.js");
     ],
     "unlinked_binary": "0x606060405234610000575b60008054600160a060020a03191633600160a060020a03161790555b5b610190806100366000396000f300606060405263ffffffff60e060020a6000350416630900f0108114610045578063445df0ac146100605780638da5cb5b1461007f578063fdacd576146100a8575b610000565b346100005761005e600160a060020a03600435166100ba565b005b346100005761006d61012d565b60408051918252519081900360200190f35b346100005761008c610133565b60408051600160a060020a039092168252519081900360200190f35b346100005761005e600435610142565b005b6000805433600160a060020a03908116911614156101275781905080600160a060020a031663fdacd5766001546040518263ffffffff1660e060020a02815260040180828152602001915050600060405180830381600087803b156100005760325a03f115610000575050505b5b5b5050565b60015481565b600054600160a060020a031681565b60005433600160a060020a039081169116141561015f5760018190555b5b5b505600a165627a7a72305820d11555879cc533b8498fe110e77798411b7f39f7bcb277f2b4708b3edc627f850029",
     "events": {},
-    "updated_at": 1485062193891,
-    "address": "0x2bb16f0904b8f19672d0ebffbe2b69bf4f23e87f",
+    "updated_at": 1485107853157,
+    "address": "0x196970c79b96c6b879412041c6e2364be11fae62",
     "links": {}
   }
 };
@@ -8208,11 +8208,11 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "fallback"
       }
     ],
-    "unlinked_binary": "0x60606040525b60008054600160a060020a0319908116739e3eaa4ec2bad4f98262c910c0d41268c22798e3179091556001805490911673c90a98661521e17a8df153b3a39c66b341e3a5971790555b5b60f48061005d6000396000f3006060604052361560235763ffffffff60e060020a60003504166338fdba188114602b575b60295b5b565b005b60316045565b604080519115158252519081900360200190f35b34600281815560008054604051919373ffffffffffffffffffffffffffffffffffffffff90911692900480156108fc029184818181858888f193505050501560c3576001546002805460405173ffffffffffffffffffffffffffffffffffffffff9093169291900480156108fc02916000818181858888f150505050505b5b5b905600a165627a7a7230582094f73fef68bf172e52af7a389e74710d9fb0982a4bcc8400ca529e9f4a47ff580029",
+    "unlinked_binary": "0x60606040525b60018054600160a060020a0319908116739e3eaa4ec2bad4f98262c910c0d41268c22798e3179091556002805490911673c90a98661521e17a8df153b3a39c66b341e3a5971790555b5b60fd8061005d6000396000f3006060604052361560235763ffffffff60e060020a60003504166338fdba1881146032575b60305b602c604c565b505b565b005b6038604c565b604080519115158252519081900360200190f35b346000818155600154604051919273ffffffffffffffffffffffffffffffffffffffff90911691600290910480156108fc029184818181858888f193505050501560cc57600280546000805460405173ffffffffffffffffffffffffffffffffffffffff90931693900480156108fc02929091818181858888f150505050505b5b5b905600a165627a7a72305820e7a24f25a44a8a0646277ccdb62a71d2a2755eb43c22b4d2100f6a68cc6698860029",
     "events": {},
-    "updated_at": 1485062193994,
+    "updated_at": 1485107853169,
     "links": {},
-    "address": "0xde7153d670038c2ca109d1e1eae8ebe098b97c19"
+    "address": "0xc7c2350df2648fb2a62a7622060db81e9918ee58"
   }
 };
 
@@ -45397,7 +45397,10 @@ window.addEventListener('load', function() {
  
 
 var accounts;
-var account;
+var accountA;
+var accountB;
+var split = Split.deployed();
+var contractAddress = split.address;
 
 function setStatus(message) {
   var status = document.getElementById("status");
@@ -45405,32 +45408,58 @@ function setStatus(message) {
 };
 
 function refreshBalance() {
-  var meta = MetaCoin.deployed();
-
-  meta.getBalance.call(account, {from: account}).then(function(value) {
-    var balance_element = document.getElementById("balance");
-    balance_element.innerHTML = value.valueOf();
-  }).catch(function(e) {
-    console.log(e);
-    setStatus("Error getting balance; see log.");
+  web3.eth.getBalance(contractAddress, function(err,split_balance){
+      if (err != null) {
+        alert("There was an error fetching your accounts.");
+        return;
+      }
+      var split_balance_element = document.getElementById("split_balance");
+      split_balance_element.innerHTML = split_balance;
   });
+
+  web3.eth.getBalance(accountA, function(err,accountA_balance){
+      if (err != null) {
+        alert("There was an error fetching your accounts.");
+        return;
+      }
+      var accountA_balance_element = document.getElementById("accountA_balance");
+      accountA_balance_element.innerHTML = accountA_balance;
+  });
+
+  web3.eth.getBalance(accountB, function(err,accountB_balance){
+      if (err != null) {
+        alert("There was an error fetching your accounts.");
+        return;
+      }
+      var accountB_balance_element = document.getElementById("accountB_balance");
+      accountB_balance_element.innerHTML = accountB_balance;
+  });
+  
 };
 
-function sendCoin() {
-  var meta = MetaCoin.deployed();
+function sendToSplit() {
 
   var amount = parseInt(document.getElementById("amount").value);
-  var receiver = document.getElementById("receiver").value;
-
+  
   setStatus("Initiating transaction... (please wait)");
 
-  meta.sendCoin(receiver, amount, {from: account}).then(function() {
-    setStatus("Transaction complete!");
-    refreshBalance();
-  }).catch(function(e) {
-    console.log(e);
-    setStatus("Error sending coin; see log.");
+  web3.eth.sendTransaction({from:accountOwner, to:contractAddress, value:web3.toWei(amount,"ether")}, function(err, tx_hash){
+      if (err != null) {
+          alert("There was an error sending ether to Split contract.");
+          return;
+      }else{
+          web3.eth.getTransactionReceipt(tx_hash, function(err, receipt){
+            if (err != null) {
+              alert("There was an error getting transaction receipt.");
+              return;
+            }else{
+              setStatus("Transaction complete!");
+              refreshBalance();
+            }
+          });
+      }
   });
+
 };
 
 window.onload = function() {
@@ -45446,7 +45475,9 @@ window.onload = function() {
     }
 
     accounts = accs;
-    account = accounts[0];
+    accountOwner = accounts[0];
+    accountA = accounts[1];
+    accountB = accounts[2];
 
     refreshBalance();
   });

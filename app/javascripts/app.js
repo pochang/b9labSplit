@@ -1,5 +1,8 @@
 var accounts;
-var account;
+var accountA;
+var accountB;
+var split = Split.deployed();
+var contractAddress = split.address;
 
 function setStatus(message) {
   var status = document.getElementById("status");
@@ -7,32 +10,58 @@ function setStatus(message) {
 };
 
 function refreshBalance() {
-  var meta = MetaCoin.deployed();
-
-  meta.getBalance.call(account, {from: account}).then(function(value) {
-    var balance_element = document.getElementById("balance");
-    balance_element.innerHTML = value.valueOf();
-  }).catch(function(e) {
-    console.log(e);
-    setStatus("Error getting balance; see log.");
+  web3.eth.getBalance(contractAddress, function(err,split_balance){
+      if (err != null) {
+        alert("There was an error fetching your accounts.");
+        return;
+      }
+      var split_balance_element = document.getElementById("split_balance");
+      split_balance_element.innerHTML = split_balance;
   });
+
+  web3.eth.getBalance(accountA, function(err,accountA_balance){
+      if (err != null) {
+        alert("There was an error fetching your accounts.");
+        return;
+      }
+      var accountA_balance_element = document.getElementById("accountA_balance");
+      accountA_balance_element.innerHTML = accountA_balance;
+  });
+
+  web3.eth.getBalance(accountB, function(err,accountB_balance){
+      if (err != null) {
+        alert("There was an error fetching your accounts.");
+        return;
+      }
+      var accountB_balance_element = document.getElementById("accountB_balance");
+      accountB_balance_element.innerHTML = accountB_balance;
+  });
+  
 };
 
-function sendCoin() {
-  var meta = MetaCoin.deployed();
+function sendToSplit() {
 
   var amount = parseInt(document.getElementById("amount").value);
-  var receiver = document.getElementById("receiver").value;
-
+  
   setStatus("Initiating transaction... (please wait)");
 
-  meta.sendCoin(receiver, amount, {from: account}).then(function() {
-    setStatus("Transaction complete!");
-    refreshBalance();
-  }).catch(function(e) {
-    console.log(e);
-    setStatus("Error sending coin; see log.");
+  web3.eth.sendTransaction({from:accountOwner, to:contractAddress, value:web3.toWei(amount,"ether")}, function(err, tx_hash){
+      if (err != null) {
+          alert("There was an error sending ether to Split contract.");
+          return;
+      }else{
+          web3.eth.getTransactionReceipt(tx_hash, function(err, receipt){
+            if (err != null) {
+              alert("There was an error getting transaction receipt.");
+              return;
+            }else{
+              setStatus("Transaction complete!");
+              refreshBalance();
+            }
+          });
+      }
   });
+
 };
 
 window.onload = function() {
@@ -48,7 +77,9 @@ window.onload = function() {
     }
 
     accounts = accs;
-    account = accounts[0];
+    accountOwner = accounts[0];
+    accountA = accounts[1];
+    accountB = accounts[2];
 
     refreshBalance();
   });
