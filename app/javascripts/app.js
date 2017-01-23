@@ -55,13 +55,28 @@ function sendToSplit() {
               alert("There was an error getting transaction receipt.");
               return;
             }else{
-              setStatus("Transaction complete!");
-              refreshBalance();
+              setStatus("Transaction waiting for mining...");
+              showSplittedEvents(split, accountA_balance);
             }
           });
       }
   });
 
+};
+
+function showSplittedEvents(mySplit, currentBalance) {
+  mySplit.OnSplitted(
+      { _accountA_balance: currentBalance },
+      { fromBlock: 0 }) 
+    .watch(function (error, value) {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log(value);
+        setStatus("Transaction complete!");
+        refreshBalance();
+      }
+    });
 };
 
 window.onload = function() {
