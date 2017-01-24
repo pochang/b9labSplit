@@ -1,6 +1,8 @@
 var accounts;
 var accountA;
 var accountB;
+
+Split.setNetwork('default');
 var split = Split.deployed();
 var contractAddress = split.address;
 
@@ -45,57 +47,78 @@ function sendToSplit() {
   
   setStatus("Initiating transaction... (please wait)");
 
-  web3.eth.sendTransaction({from:accountOwner, to:contractAddress, value:web3.toWei(amount,"ether")}, function(err, tx_hash){
+  web3.eth.sendTransaction({from:accountOwner, to:contractAddress, value:web3.toWei(amount)}, function(err, tx_hash){
       if (err != null) {
           alert("There was an error sending ether to Split contract.");
           return;
       }else{
-          web3.eth.getTransactionReceipt(tx_hash, function(err, receipt){
-            if (err != null) {
-              alert("There was an error getting transaction receipt.");
-              return;
-            }else{
-              setStatus("Transaction waiting for mining...");
-              showSplittedEvents(split, accountA_balance);
-            }
+        setStatus("Waiting for mining...");
+        return getTransactionReceiptMined(tx_hash)
+          .then(function(receipt){
+              setStatus("Transaction complete!");
+              refreshBalance();
           });
       }
   });
 
 };
 
-function showSplittedEvents(mySplit, currentBalance) {
-  mySplit.OnSplitted(
-      { _accountA_balance: currentBalance },
-      { fromBlock: 0 }) 
-    .watch(function (error, value) {
-      if (error) {
-        console.error(error);
-      } else {
-        console.log(value);
-        setStatus("Transaction complete!");
-        refreshBalance();
-      }
-    });
-};
-
 window.onload = function() {
   web3.eth.getAccounts(function(err, accs) {
     if (err != null) {
-      alert("There was an error fetching your accounts.");
+      setStatus("There was an error fetching your accounts.");
+      document.getElementById("send").disabled = true;
       return;
     }
 
     if (accs.length == 0) {
-      alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
+      setStatus("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
+      document.getElementById("send").disabled = true;
       return;
     }
 
     accounts = accs;
     accountOwner = accounts[0];
+    /*
+    accountA = Split.deployed().accountA();
+    accountB = Split.deployed().accountB();
+    */
     accountA = accounts[1];
     accountB = accounts[2];
+    
+    console.log(accountA);
 
     refreshBalance();
   });
 }
+
+var getTransactionReceiptMined = function (txnHash, interval) {
+    var transactionReceiptAsync;
+    interval = interval ? interval : 500;
+    transactionReceiptAsync = function(txnHash, resolve, reject) {
+        try {
+            var receipt = web3.eth.getTransactionReceipt(txnHash);
+            if (receipt == null) {
+                setTimeout(function () {
+                    transactionReceiptAsync(txnHash, resolve, reject);
+                }, interval);
+            } else {
+                resolve(receipt);
+            }
+        } catch(e) {
+            reject(e);
+        }
+    };
+
+    if (Array.isArray(txnHash)) {
+        var promises = [];
+        txnHash.forEach(function (oneTxHash) {
+            promises.push(web3.eth.getTransactionReceiptMined(oneTxHash, interval));
+        });
+        return Promise.all(promises);
+    } else {
+        return new Promise(function (resolve, reject) {
+                transactionReceiptAsync(txnHash, resolve, reject);
+            });
+    }
+};

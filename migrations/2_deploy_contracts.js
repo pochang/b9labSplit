@@ -1,7 +1,4 @@
 module.exports = function(deployer) {
-  //deployer.deploy(ConvertLib);
-  //deployer.autolink();
-  //deployer.deploy(MetaCoin);
-  deployer.deploy(Split);
-  //deployer.deploy(Faucet);
+	var accounts = web3.eth.accounts;
+	deployer.deploy(Split, accounts[1], accounts[2]);
 };
