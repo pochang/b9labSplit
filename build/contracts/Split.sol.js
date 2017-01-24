@@ -350,6 +350,19 @@ var SolidityEvent = require("web3/lib/web3/event.js");
   "default": {
     "abi": [
       {
+        "constant": true,
+        "inputs": [],
+        "name": "accountA",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
         "constant": false,
         "inputs": [],
         "name": "doSplit",
@@ -363,33 +376,68 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         "type": "function"
       },
       {
+        "constant": false,
         "inputs": [],
-        "payable": true,
+        "name": "kill",
+        "outputs": [
+          {
+            "name": "",
+            "type": "bool"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "constant": true,
+        "inputs": [],
+        "name": "accountB",
+        "outputs": [
+          {
+            "name": "",
+            "type": "address"
+          }
+        ],
+        "payable": false,
+        "type": "function"
+      },
+      {
+        "inputs": [
+          {
+            "name": "_accountA",
+            "type": "address"
+          },
+          {
+            "name": "_accountB",
+            "type": "address"
+          }
+        ],
+        "payable": false,
         "type": "constructor"
       },
       {
-        "payable": true,
+        "payable": false,
         "type": "fallback"
       },
       {
         "anonymous": false,
         "inputs": [
           {
-            "indexed": false,
-            "name": "_accountA_balance",
+            "indexed": true,
+            "name": "previousRecieveAmount",
             "type": "uint256"
           },
           {
             "indexed": false,
-            "name": "",
+            "name": "newRecieveAmount",
             "type": "uint256"
           }
         ],
-        "name": "OnSplitted",
+        "name": "LogOnSplitted",
         "type": "event"
       }
     ],
-    "unlinked_binary": "0x60606040525b60018054600160a060020a0319908116739e3eaa4ec2bad4f98262c910c0d41268c22798e3179091556002805490911673c90a98661521e17a8df153b3a39c66b341e3a5971790555b5b6101488061005e6000396000f300606060405236156100255763ffffffff60e060020a60003504166338fdba188114610037575b6100355b610031610053565b505b565b005b61003f610053565b604080519115158252519081900360200190f35b3460008181556001546040519192600160a060020a0390911691600290910480156108fc029184818181858888f19350505050151561009157610000565b6002805460008054604051600160a060020a0390931693900480156108fc02929091818181858888f1935050505015156100ca57610000565b60015460025460408051600160a060020a039384163181529290911631602083015280517f819f1cb5e2ad16340d00096759ac6cb5875587c8c0c31a031a0b0d5a04c99ae29281900390910190a15b905600a165627a7a7230582002108ea34e1fb92bdc46badfb27fbf71ea8ccf47a2ec93e2fedc6172b107a95c0029",
+    "unlinked_binary": "0x606060405234610000576040516040806102a28339810160405280516020909101515b60008054600160a060020a03338116600160a060020a0319928316179092556001805485841690831617905560028054928416929091169190911790555b50505b610230806100726000396000f300606060405236156100465763ffffffff60e060020a60003504166306867f7d811461005d57806338fdba181461008657806341c0e1b5146100a2578063ecb6af21146100c3575b346100005761005b5b6100576100ec565b505b565b005b346100005761006a6101bc565b60408051600160a060020a039092168252519081900360200190f35b61008e6100ec565b604080519115158252519081900360200190f35b346100005761008e6101cb565b604080519115158252519081900360200190f35b346100005761006a6101f5565b60408051600160a060020a039092168252519081900360200190f35b60006003547fa5d6a6d28d41c472bae4054b2c30034269029f44db08a2862af33a2c303389c2346040518082815260200191505060405180910390a2600234066001141561014457600260001934010460045561014c565b600234046004555b600154600454604051600160a060020a039092169181156108fc0291906000818181858888f19350505050151561018257610000565b600254600454604051600160a060020a039092169181156108fc0291906000818181858888f1935050505015156101b857610000565b5b90565b600154600160a060020a031681565b6000805433600160a060020a03908116911614156101b857600054600160a060020a0316ff5b5b90565b600254600160a060020a0316815600a165627a7a7230582050bd7752767bb1a820912f4ab3c5c4c2c4585ff2fcee7f884ebb4518feb335b30029",
     "events": {
       "0x819f1cb5e2ad16340d00096759ac6cb5875587c8c0c31a031a0b0d5a04c99ae2": {
         "anonymous": false,
@@ -407,11 +455,28 @@ var SolidityEvent = require("web3/lib/web3/event.js");
         ],
         "name": "OnSplitted",
         "type": "event"
+      },
+      "0xa5d6a6d28d41c472bae4054b2c30034269029f44db08a2862af33a2c303389c2": {
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "name": "previousRecieveAmount",
+            "type": "uint256"
+          },
+          {
+            "indexed": false,
+            "name": "newRecieveAmount",
+            "type": "uint256"
+          }
+        ],
+        "name": "LogOnSplitted",
+        "type": "event"
       }
     },
-    "updated_at": 1485166602309,
+    "updated_at": 1485282880273,
     "links": {},
-    "address": "0x31506a70bdeb132691a3a888e67de919f4ec9d25"
+    "address": "0x2b837333ed2462ba52274edf535789302f166064"
   }
 };
 

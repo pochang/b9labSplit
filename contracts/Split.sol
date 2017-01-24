@@ -1,29 +1,46 @@
 pragma solidity ^0.4.2;
 
 contract Split {
-	uint256 newDepositAmount;
-	address accountA;
-	address accountB;
+	address owner;
+	address public accountA;
+	address public accountB;
+	uint256 recieveAmount;
+	uint256 splitAmount;
 
-	event OnSplitted(uint256 _accountA_balance, uint256 );
+	event LogOnSplitted(uint256 indexed previousRecieveAmount, uint256 newRecieveAmount);
 	
-	function Split() payable {
-		accountA = 0x9e3eaa4ec2bad4f98262c910c0d41268c22798e3;
-		accountB = 0xc90a98661521e17a8df153b3a39c66b341e3a597;
+	function Split(address _accountA, address _accountB) {
+		owner = msg.sender;
+		accountA = _accountA;
+		accountB = _accountB;
 	}
 	
 	function doSplit() payable returns (bool) {
-		newDepositAmount = msg.value;
-	    if(!accountA.send(newDepositAmount/2)){
+
+		LogOnSplitted(recieveAmount, msg.value);
+
+		if(msg.value%2==1){
+			splitAmount = (msg.value-1)/2;
+		}else{
+			splitAmount = msg.value/2;
+		}
+
+	    if(!accountA.send(splitAmount)){
 	    	throw;	
 	    }
-	    if(!accountB.send(newDepositAmount/2)){
+	    if(!accountB.send(splitAmount)){
 	    	throw;	
 	    }
-	    OnSplitted(accountA.balance, accountB.balance);
 	}
+
+	function kill() returns (bool) {
+        if (msg.sender == owner) {
+            suicide(owner);
+            return true;
+        }
+    }
 	
-	function () payable {
+	function () {
 		doSplit();
 	}
 }
