@@ -7,17 +7,26 @@ contract Split {
 	uint256 recieveAmount;
 	uint256 splitAmount;
 
-	event LogOnSplitted(uint256 indexed previousRecieveAmount, uint256 newRecieveAmount);
+	event LogOnSplitted(uint256 indexed preRecieveAmount, uint256 newRecieveAmount);
 	
 	function Split(address _accountA, address _accountB) {
 		owner = msg.sender;
 		accountA = _accountA;
 		accountB = _accountB;
+		recieveAmount = 0;
 	}
-	
-	function doSplit() payable returns (bool) {
 
-		LogOnSplitted(recieveAmount, msg.value);
+	function kill() returns (bool) {
+        if (msg.sender == owner) {
+            selfdestruct(owner);
+            return true;
+        }
+    }
+	
+	function () payable {
+		if(msg.value==1){
+			throw;
+		}
 
 		if(msg.value%2==1){
 			splitAmount = (msg.value-1)/2;
@@ -31,16 +40,8 @@ contract Split {
 	    if(!accountB.send(splitAmount)){
 	    	throw;	
 	    }
-	}
 
-	function kill() returns (bool) {
-        if (msg.sender == owner) {
-            suicide(owner);
-            return true;
-        }
-    }
-	
-	function () {
-		doSplit();
+	    LogOnSplitted(recieveAmount, msg.value);
+	    recieveAmount = msg.value;
 	}
 }

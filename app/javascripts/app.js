@@ -1,17 +1,14 @@
 var accounts;
-var accountA;
-var accountB;
-
-Split.setNetwork('default');
-var split = Split.deployed();
-var contractAddress = split.address;
+var addressA;
+var addressB;
+var contractAddress;
 
 function setStatus(message) {
   var status = document.getElementById("status");
   status.innerHTML = message;
 };
 
-function refreshBalance() {
+function getBalanceSplit() {
   web3.eth.getBalance(contractAddress, function(err,split_balance){
       if (err != null) {
         alert("There was an error fetching your accounts.");
@@ -20,8 +17,10 @@ function refreshBalance() {
       var split_balance_element = document.getElementById("split_balance");
       split_balance_element.innerHTML = split_balance;
   });
+};
 
-  web3.eth.getBalance(accountA, function(err,accountA_balance){
+function getBalanceA(){
+  web3.eth.getBalance(addressA, function(err,accountA_balance){
       if (err != null) {
         alert("There was an error fetching your accounts.");
         return;
@@ -29,8 +28,10 @@ function refreshBalance() {
       var accountA_balance_element = document.getElementById("accountA_balance");
       accountA_balance_element.innerHTML = accountA_balance;
   });
+}
 
-  web3.eth.getBalance(accountB, function(err,accountB_balance){
+function getBalanceB(){
+  web3.eth.getBalance(addressB, function(err,accountB_balance){
       if (err != null) {
         alert("There was an error fetching your accounts.");
         return;
@@ -38,8 +39,7 @@ function refreshBalance() {
       var accountB_balance_element = document.getElementById("accountB_balance");
       accountB_balance_element.innerHTML = accountB_balance;
   });
-  
-};
+}
 
 function sendToSplit() {
 
@@ -47,23 +47,29 @@ function sendToSplit() {
   
   setStatus("Initiating transaction... (please wait)");
 
-  web3.eth.sendTransaction({from:accountOwner, to:contractAddress, value:web3.toWei(amount)}, function(err, tx_hash){
+  web3.eth.sendTransaction({from:accountOwner, to:contractAddress, value:amount}, function(err, tx_hash){
       if (err != null) {
-          alert("There was an error sending ether to Split contract.");
+          setStatus("There was an error sending ether to Split contract.");
           return;
       }else{
         setStatus("Waiting for mining...");
-        return getTransactionReceiptMined(tx_hash)
+        return web3.eth.getTransactionReceiptMined(tx_hash)
           .then(function(receipt){
               setStatus("Transaction complete!");
-              refreshBalance();
+              getBalanceA();
+              getBalanceB();
+              getBalanceSplit();
           });
       }
   });
-
+  
 };
 
 window.onload = function() {
+
+  var split = Split.deployed();
+  contractAddress = split.address;
+
   web3.eth.getAccounts(function(err, accs) {
     if (err != null) {
       setStatus("There was an error fetching your accounts.");
@@ -79,20 +85,26 @@ window.onload = function() {
 
     accounts = accs;
     accountOwner = accounts[0];
-    /*
-    accountA = Split.deployed().accountA();
-    accountB = Split.deployed().accountB();
-    */
-    accountA = accounts[1];
-    accountB = accounts[2];
-    
-    console.log(accountA);
 
-    refreshBalance();
+    split.accountA()
+    .then(function(accountA) {
+        addressA = accountA;
+        console.log("addressA:"+addressA);
+        getBalanceA();
+    });
+
+    split.accountB()
+    .then(function(accountB) {
+        addressB = accountB;
+        console.log("addressB:"+addressB);
+        getBalanceB();
+    });
+
+    getBalanceSplit();
+
   });
-}
 
-var getTransactionReceiptMined = function (txnHash, interval) {
+  web3.eth.getTransactionReceiptMined = function (txnHash, interval) {
     var transactionReceiptAsync;
     interval = interval ? interval : 500;
     transactionReceiptAsync = function(txnHash, resolve, reject) {
@@ -121,4 +133,5 @@ var getTransactionReceiptMined = function (txnHash, interval) {
                 transactionReceiptAsync(txnHash, resolve, reject);
             });
     }
-};
+  };
+}
