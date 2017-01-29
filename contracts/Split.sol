@@ -25,7 +25,7 @@ contract Split {
 	
 	function () payable {
 		if(msg.value==1){
-			throw;
+			splitAmount = 0;
 		}
 
 		if(msg.value%2==1){
