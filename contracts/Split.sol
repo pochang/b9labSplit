@@ -24,12 +24,12 @@ contract Split {
     }
 	
 	function () payable {
-		if(msg.value==1){
-			splitAmount = 0;
-		}
-
+		
 		if(msg.value%2==1){
 			splitAmount = (msg.value-1)/2;
+			if(!msg.sender.send(1)){
+				throw;
+			}
 		}else{
 			splitAmount = msg.value/2;
 		}
