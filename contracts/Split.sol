@@ -24,22 +24,11 @@ contract Split {
     }
 	
 	function () payable {
-		
-		if(msg.value%2==1){
-			splitAmount = (msg.value-1)/2;
-			if(!msg.sender.send(1)){
-				throw;
-			}
-		}else{
-			splitAmount = msg.value/2;
-		}
 
-	    if(!accountA.send(splitAmount)){
-	    	throw;	
-	    }
-	    if(!accountB.send(splitAmount)){
-	    	throw;	
-	    }
+		splitAmount = msg.value/2;
+		
+	    if(!accountA.send(splitAmount + msg.value%2)) throw;
+	    if(!accountB.send(splitAmount)) throw;
 
 	    LogOnSplitted(recieveAmount, msg.value);
 	    recieveAmount = msg.value;
