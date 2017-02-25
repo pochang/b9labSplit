@@ -34,99 +34,91 @@ web3.eth.getTransactionReceiptMined = function (txnHash, interval) {
 
 contract('Split', function(accounts) {
 
-  var split;
-  var splitTxHash;
-  var splitAddress;
-  var accountA;
-  var accountB;
-  var receiveAmount;
-  const accountABalance = web3.eth.getBalance(accounts[1]);
-  const accountBBalance = web3.eth.getBalance(accounts[2]);
+  describe("Deployed", function(){
 
-  describe("Split Deployed", function(){
+    var split;
+    var splitTxHash;
+    var splitAddress;
+    var accountA = accounts[1];
+    var accountB = accounts[2];
+    var receiveAmount;
+    var accountABalance;
+    var accountBBalance;
 
     beforeEach("New split instance", function(){
-
-      Split.new(accounts[1], accounts[2])
+      return Split.new(accounts[1], accounts[2])
       .then(function(created){
-         split = created;
-         splitTxHash = split.transactionHash;
-         splitAddress = split.address;
+        split = created;
+        splitTxHash = split.transactionHash;
+        splitAddress = split.address;
+        accountABalance = web3.eth.getBalance(accounts[1]);
+        accountBBalance = web3.eth.getBalance(accounts[2]);
       })
     });
   
 
     it("should return addresses from constructor", function() {
 
-      web3.eth.getTransactionReceiptMined(splitTxHash)
+      return web3.eth.getTransactionReceiptMined(splitTxHash)
       .then(function(receipt){
           return split.accountA();
       })
       .then(function(_accountA) {
-          assert.strictEqual(accounts[1], _accountA);
-          accountA = _accountA;
+          assert.strictEqual(accountA, _accountA);
           return split.accountB();
       })
       .then(function(_accountB) {
-          assert.strictEqual(accounts[2], _accountB);
-          accountB = _accountB;
+          assert.strictEqual(accountB, _accountB);
       });
 
     });
 
-    it("it should split nothing and return 1 wei to sender when received is 1", function() {
+    it("should send 1 wei to A when received is 1", function() {
 
       receiveAmount = 1;
       
       return web3.eth.sendTransactionPromise({from: accounts[0], to:splitAddress, value:receiveAmount})
       .then(function(txhash) {
-          
-          splitAmount = parseInt(receiveAmount/2);
-          assert.strictEqual(accountABalance.plus(splitAmount).toString(), web3.eth.getBalance(accountA).toString());
-          assert.strictEqual(accountBBalance.plus(splitAmount).toString(), web3.eth.getBalance(accountB).toString());
-          assert.strictEqual(0, web3.eth.getBalance(splitAddress).toString());
-      })
-      .catch(function(error){
-          return false;
+          return web3.eth.getTransactionReceiptMined(txhash);
+      }).then(function(receipt) {
+          assert.strictEqual(accountABalance.plus(1).toString(), web3.eth.getBalance(accountA).toString());
+          assert.strictEqual(accountBBalance.plus(0).toString(), web3.eth.getBalance(accountB).toString());
+          assert.strictEqual('0', web3.eth.getBalance(splitAddress).toString());
       });
 
     });
 
-    it("it should split equally and return 1 wei to sender when received is odd", function() {
+    it("should spit equally, and plus 1 more wei to A, when received is odd", function() {
 
-      receiveAmount = 1001;
+      receiveAmount = 101;
+      splitAmount = 50;
       
       return web3.eth.sendTransactionPromise({from: accounts[0], to:splitAddress, value:receiveAmount})
       .then(function(txhash) {
-          
-          splitAmount = parseInt(receiveAmount/2);
-          assert.strictEqual(accountABalance.plus(splitAmount).toString(), web3.eth.getBalance(accountA).toString());
+          return web3.eth.getTransactionReceiptMined(txhash);
+      }).then(function(receipt) {
+          assert.strictEqual(accountABalance.plus(splitAmount+1).toString(), web3.eth.getBalance(accountA).toString());
           assert.strictEqual(accountBBalance.plus(splitAmount).toString(), web3.eth.getBalance(accountB).toString());
-          assert.strictEqual(0, web3.eth.getBalance(splitAddress).toString());
-      })
-      .catch(function(error){
-          return false;
+          assert.strictEqual('0', web3.eth.getBalance(splitAddress).toString());
       });
 
     });
 
-    it("it should split equally when received is even", function() {
+    it("should spit equally when received is even", function() {
 
       receiveAmount = 1000;
+      splitAmount = 500;
       
       return web3.eth.sendTransactionPromise({from: accounts[0], to:splitAddress, value:receiveAmount})
       .then(function(txhash) {
-          
-          splitAmount = parseInt(receiveAmount/2);
+          return web3.eth.getTransactionReceiptMined(txhash);
+      }).then(function(receipt) {
           assert.strictEqual(accountABalance.plus(splitAmount).toString(), web3.eth.getBalance(accountA).toString());
           assert.strictEqual(accountBBalance.plus(splitAmount).toString(), web3.eth.getBalance(accountB).toString());
-          assert.strictEqual(0, web3.eth.getBalance(splitAddress).toString());
-      })
-      .catch(function(error){
-          return false;
+          assert.strictEqual('0', web3.eth.getBalance(splitAddress).toString());
       });
 
-    });
+    });    
 
 
   });
