@@ -25,7 +25,7 @@ contract Split {
 
 		splitAmount = msg.value/2;
 		
-	    if(!accountA.send(splitAmount + msg.value%2)) throw;
+	    if(!accountA.send(msg.value - splitAmount)) throw;
 	    if(!accountB.send(splitAmount)) throw;
 
 	}
